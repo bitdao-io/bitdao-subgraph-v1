@@ -1,0 +1,41 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: BitDAO
+    network: mainnet
+    source:
+      address: "0x1A4b46696b2bB4794Eb3D4c26f1c55F9170fa4C5"
+      abi: BitDAO
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - DelegateChanged
+        - DelegateVotesChanged
+        - NewAdmin
+        - NewPendingAdmin
+        - Snapshot
+        - Transfer
+      abis:
+        - name: BitDAO
+          file: ./abis/BitDAO.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+        - event: NewAdmin(indexed address,indexed address)
+          handler: handleNewAdmin
+        - event: NewPendingAdmin(indexed address,indexed address)
+          handler: handleNewPendingAdmin
+        - event: Snapshot(uint256)
+          handler: handleSnapshot
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
