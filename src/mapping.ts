@@ -1,39 +1,52 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+// import { BigInt } from "@graphprotocol/graph-ts"
+// import {
+//   bitdao,
+//   Approval,
+//   DelegateChanged,
+//   DelegateVotesChanged,
+//   NewAdmin,
+//   NewPendingAdmin,
+//   Snapshot,
+//   Transfer
+// } from "../generated/bitdao/bitdao"
 import {
-  BitDAO,
-  Approval,
-  DelegateChanged,
-  DelegateVotesChanged,
+  DelegateChanged as DelegateChangedEvent,
+  DelegateVotesChanged as DelegateVotesChangedEvent,
   NewAdmin,
   NewPendingAdmin,
   Snapshot,
   Transfer
-} from "../generated/BitDAO/BitDAO"
-import { ExampleEntity } from "../generated/schema"
+} from "../generated/bitdao/bitdao"
+import {
+  DelegateChanged,
+  DelegateVotesChanged,
+} from "../generated/schema"
 
-export function handleApproval(event: Approval): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+// import { ExampleEntity } from "../generated/schema"
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
+// export function handleApproval(event: Approval): void {
+//   // Entities can be loaded from the store using a string ID; this ID
+//   // needs to be unique across all entities of the same type
+//   let entity = ExampleEntity.load(event.transaction.from.toHex())
 
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
+//   // Entities only exist after they have been saved to the store;
+//   // `null` checks allow to create entities on demand
+//   if (entity == null) {
+//     entity = new ExampleEntity(event.transaction.from.toHex())
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
+//     // Entity fields can be set using simple assignments
+//     entity.count = BigInt.fromI32(0)
+//   }
 
-  // Entity fields can be set based on event parameters
-  entity.owner = event.params.owner
-  entity.spender = event.params.spender
+//   // BigInt and BigDecimal math are supported
+//   entity.count = entity.count + BigInt.fromI32(1)
 
-  // Entities can be written to the store with `.save()`
-  entity.save()
+//   // Entity fields can be set based on event parameters
+//   entity.owner = event.params.owner
+//   entity.spender = event.params.spender
+
+//   // Entities can be written to the store with `.save()`
+//   entity.save()
 
   // Note: If a handler doesn't require existing field values, it is faster
   // _not_ to load the entity from the store. Instead, create it fresh with
@@ -77,11 +90,27 @@ export function handleApproval(event: Approval): void {
   // - contract.totalSupplyAt(...)
   // - contract.transfer(...)
   // - contract.transferFrom(...)
+// }
+
+export function handleDelegateChanged(event: DelegateChangedEvent): void {
+  let entity = new DelegateChanged(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  )
+  entity.delegator = event.params.delegator
+  entity.fromDelegate = event.params.fromDelegate
+  entity.toDelegate = event.params.toDelegate
+  entity.save()
 }
 
-export function handleDelegateChanged(event: DelegateChanged): void {}
-
-export function handleDelegateVotesChanged(event: DelegateVotesChanged): void {}
+export function handleDelegateVotesChanged(event: DelegateVotesChangedEvent): void {
+  let entity = new DelegateVotesChanged(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  )
+  entity.delegate = event.params.delegate
+  entity.previousBalance = event.params.previousBalance
+  entity.newBalance = event.params.newBalance
+  entity.save()
+}
 
 export function handleNewAdmin(event: NewAdmin): void {}
 

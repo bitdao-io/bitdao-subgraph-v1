@@ -1,0 +1,50 @@
+Arguments: 
+  /Users/sh22123ml/.nvm/versions/node/v12.13.0/bin/node /Users/sh22123ml/.yarn/bin/yarn.js
+
+PATH: 
+  /Users/sh22123ml/.yarn/bin:/Users/sh22123ml/.config/yarn/global/node_modules/.bin:/Users/sh22123ml/.nvm/versions/node/v12.13.0/bin:/Users/sh22123ml/.autojump/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  12.13.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://github.com/hugomrdias/concat-stream: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (/Users/sh22123ml/.yarn/lib/cli.js:141376:19)
+      at Object.onceWrapper (events.js:299:28)
+      at ClientRequest.emit (events.js:210:5)
+      at TLSSocket.emitRequestTimeout (_http_client.js:690:9)
+      at Object.onceWrapper (events.js:299:28)
+      at TLSSocket.emit (events.js:210:5)
+      at TLSSocket.Socket._onTimeout (net.js:468:8)
+      at listOnTimeout (internal/timers.js:531:17)
+      at processTimers (internal/timers.js:475:7)
+
+npm manifest: 
+  {
+    "name": "bitdao",
+    "license": "UNLICENSED",
+    "scripts": {
+      "codegen": "graph codegen",
+      "build": "graph build",
+      "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ bitdao",
+      "create-local": "graph create --node http://localhost:8020/ bitdao",
+      "remove-local": "graph remove --node http://localhost:8020/ bitdao",
+      "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 bitdao"
+    },
+    "dependencies": {
+      "@graphprotocol/graph-cli": "0.21.1",
+      "@graphprotocol/graph-ts": "0.20.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

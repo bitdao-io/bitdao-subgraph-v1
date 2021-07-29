@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: BitDAO
@@ -22,7 +22,7 @@ dataSources:
         - Transfer
       abis:
         - name: BitDAO
-          file: ./abis/BitDAO.json
+          file: BitDAO/abis/BitDAO.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,uint256)
           handler: handleApproval
@@ -38,4 +38,4 @@ dataSources:
           handler: handleSnapshot
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: ./src/mapping.ts
+      file: BitDAO/BitDAO.wasm
