@@ -11,18 +11,31 @@
 after running the above command it show some options and choose them according
 7. then go into your subgraph dir and open the file schema.graphql and update it with below code
 
-```typescript
-type DelegateChanged @entity {
+
+```
+type TokenHolder @entity {
+  "Address of this TokenHolder"
   id: ID!
-  delegator: Bytes! # address
-  fromDelegate: Bytes! # address
-  toDelegate: Bytes! # address
+
+  "Delegate entity that this TokenHolder has delegated their vote weight to"
+  delegate: Delegate!
+  
+  "Number of tokens this TokenHolder has"
+  tokenBalance: BigDecimal!
 }
-type DelegateVotesChanged @entity {
+
+type Delegate @entity {
+  "Address of this Delegate"
   id: ID!
-  delegate: Bytes! # address
-  previousBalance: BigInt! # uint256
-  newBalance: BigInt! # uint256
+
+  "Number of votes (token weights) delegated to this Delegate"
+  delegatedVotes: BigDecimal!
+
+  "Number of TokenHolders that have delegated their votes (token weights) to this Delegate"
+  numDelegators: Int!
+
+  "List of this Delegate's represented TokenHolders"
+  Delegators: [TokenHolder!]! @derivedFrom(field: "delegate")
 }
 ```
 

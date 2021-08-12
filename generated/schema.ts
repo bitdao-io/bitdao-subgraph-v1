@@ -12,7 +12,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class DelegateChanged extends Entity {
+export class TokenHolder extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,17 +20,17 @@ export class DelegateChanged extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save DelegateChanged entity without an ID");
+    assert(id !== null, "Cannot save TokenHolder entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save DelegateChanged entity with non-string ID. " +
+      "Cannot save TokenHolder entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("DelegateChanged", id.toString(), this);
+    store.set("TokenHolder", id.toString(), this);
   }
 
-  static load(id: string): DelegateChanged | null {
-    return store.get("DelegateChanged", id) as DelegateChanged | null;
+  static load(id: string): TokenHolder | null {
+    return store.get("TokenHolder", id) as TokenHolder | null;
   }
 
   get id(): string {
@@ -42,35 +42,26 @@ export class DelegateChanged extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get delegator(): Bytes {
-    let value = this.get("delegator");
-    return value.toBytes();
+  get delegate(): string {
+    let value = this.get("delegate");
+    return value.toString();
   }
 
-  set delegator(value: Bytes) {
-    this.set("delegator", Value.fromBytes(value));
+  set delegate(value: string) {
+    this.set("delegate", Value.fromString(value));
   }
 
-  get fromDelegate(): Bytes {
-    let value = this.get("fromDelegate");
-    return value.toBytes();
+  get tokenBalance(): BigDecimal {
+    let value = this.get("tokenBalance");
+    return value.toBigDecimal();
   }
 
-  set fromDelegate(value: Bytes) {
-    this.set("fromDelegate", Value.fromBytes(value));
-  }
-
-  get toDelegate(): Bytes {
-    let value = this.get("toDelegate");
-    return value.toBytes();
-  }
-
-  set toDelegate(value: Bytes) {
-    this.set("toDelegate", Value.fromBytes(value));
+  set tokenBalance(value: BigDecimal) {
+    this.set("tokenBalance", Value.fromBigDecimal(value));
   }
 }
 
-export class DelegateVotesChanged extends Entity {
+export class Delegate extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -78,20 +69,17 @@ export class DelegateVotesChanged extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(
-      id !== null,
-      "Cannot save DelegateVotesChanged entity without an ID"
-    );
+    assert(id !== null, "Cannot save Delegate entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save DelegateVotesChanged entity with non-string ID. " +
+      "Cannot save Delegate entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("DelegateVotesChanged", id.toString(), this);
+    store.set("Delegate", id.toString(), this);
   }
 
-  static load(id: string): DelegateVotesChanged | null {
-    return store.get("DelegateVotesChanged", id) as DelegateVotesChanged | null;
+  static load(id: string): Delegate | null {
+    return store.get("Delegate", id) as Delegate | null;
   }
 
   get id(): string {
@@ -103,30 +91,30 @@ export class DelegateVotesChanged extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get delegate(): Bytes {
-    let value = this.get("delegate");
-    return value.toBytes();
+  get delegatedVotes(): BigDecimal {
+    let value = this.get("delegatedVotes");
+    return value.toBigDecimal();
   }
 
-  set delegate(value: Bytes) {
-    this.set("delegate", Value.fromBytes(value));
+  set delegatedVotes(value: BigDecimal) {
+    this.set("delegatedVotes", Value.fromBigDecimal(value));
   }
 
-  get previousBalance(): BigInt {
-    let value = this.get("previousBalance");
-    return value.toBigInt();
+  get numDelegators(): i32 {
+    let value = this.get("numDelegators");
+    return value.toI32();
   }
 
-  set previousBalance(value: BigInt) {
-    this.set("previousBalance", Value.fromBigInt(value));
+  set numDelegators(value: i32) {
+    this.set("numDelegators", Value.fromI32(value));
   }
 
-  get newBalance(): BigInt {
-    let value = this.get("newBalance");
-    return value.toBigInt();
+  get Delegators(): Array<string> {
+    let value = this.get("Delegators");
+    return value.toStringArray();
   }
 
-  set newBalance(value: BigInt) {
-    this.set("newBalance", Value.fromBigInt(value));
+  set Delegators(value: Array<string>) {
+    this.set("Delegators", Value.fromStringArray(value));
   }
 }
