@@ -42,13 +42,21 @@ export class TokenHolder extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get delegate(): string {
+  get delegate(): string | null {
     let value = this.get("delegate");
-    return value.toString();
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set delegate(value: string) {
-    this.set("delegate", Value.fromString(value));
+  set delegate(value: string | null) {
+    if (value === null) {
+      this.unset("delegate");
+    } else {
+      this.set("delegate", Value.fromString(value as string));
+    }
   }
 
   get tokenBalance(): BigDecimal {

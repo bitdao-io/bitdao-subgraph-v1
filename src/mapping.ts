@@ -33,14 +33,16 @@ export function handleDelegateChanged(event: DelegateChanged): void {
   tokenHolder.delegate = newDelegate.id;
   tokenHolder.save();
 
-  oldDelegate.numDelegators =
-    oldDelegate.numDelegators - 1;
-  newDelegate.numDelegators =
-    newDelegate.numDelegators + 1;
+  if (oldDelegate.id != newDelegate.id) {
+    oldDelegate.numDelegators =
+      oldDelegate.numDelegators - 1;
+    newDelegate.numDelegators =
+      newDelegate.numDelegators + 1;
 
+    oldDelegate.save();
+    newDelegate.save();
+  }
 
-  oldDelegate.save();
-  newDelegate.save();
 }
 
 export function handleDelegateVotesChanged(event: DelegateVotesChanged): void {
@@ -77,6 +79,8 @@ export function handleTransfer(event: Transfer): void {
 }
 
 export function handleNewAdmin(event: NewAdmin): void { }
+
+export function handleApproval(event: Approval): void { }
 
 export function handleNewPendingAdmin(event: NewPendingAdmin): void { }
 

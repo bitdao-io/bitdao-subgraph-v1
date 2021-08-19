@@ -6,8 +6,9 @@ dataSources:
     name: BitDAO
     network: mainnet
     source:
-      address: "0x1A4b46696b2bB4794Eb3D4c26f1c55F9170fa4C5"
+      address: "0x1d46cd687a4f550cad0969d30147e4769d5c6d66"
       abi: BitDAO
+      startBlock: 13057617
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
