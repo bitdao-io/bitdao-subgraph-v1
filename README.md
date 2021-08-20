@@ -18,7 +18,7 @@ type TokenHolder @entity {
   id: ID!
 
   "Delegate entity that this TokenHolder has delegated their vote weight to"
-  delegate: Delegate!
+  delegate: Delegate
   
   "Number of tokens this TokenHolder has"
   tokenBalance: BigDecimal!
